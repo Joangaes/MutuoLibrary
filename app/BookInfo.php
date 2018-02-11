@@ -13,6 +13,6 @@ class BookInfo extends Model
   protected $fillable = ['title','date_published','pages','isbn','genre','editorial','owner','library_id'];
 
   public function Library(){
-    return $this->belongsTo('App\Library','library_id','library_id');
+    return $this->hasOne('App\Library','library_id','library_id');
   }
 }

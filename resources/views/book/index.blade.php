@@ -57,12 +57,15 @@
               {{$book->owner}}
             </td>
             <td>
-
+              {{$book->Library->name}}
             </td>
         </tr>
         @endforeach
       </table>
     </div>
   </div>
+  <center>
+  {{ $books->links() }}
+  <center>
 </div>
 @stop

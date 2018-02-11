@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Loans;
-use App\User;
 use App\Book;
-use DB;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-
-class LoanController extends Controller
+class ReturnController extends Controller
 {
   public function __construct()
   {
     $this->middleware('auth');
   }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,16 +22,17 @@ class LoanController extends Controller
      */
     public function index()
     {
-      $loans = Loans::where('user_id','=',Auth::id())->paginate(15);
-      //dd($loans[0]->Book->BookInfo->title);
-      /*$number_of_loans=count($loans);
-      for($x=0;$x<$number_of_loans;$x++)
-      {
-        dd($loans[$x]['user_id']);
-      }*/
-        return view('loans.index')
+
+        $loans = Loans::where('user_id','=',Auth::id())->where('real_return_date','=',null)->paginate(15);
+        //dd($loans);
+        $first_name = Auth::user()->first_name;
+
+        $last_name = Auth::user()->last_name;
+        return view('returns.index')
         ->with([
           'loans'=>$loans,
+          'first_name'=>$first_name,
+          'last_name'=>$last_name,
         ]);
     }
 
@@ -45,15 +44,6 @@ class LoanController extends Controller
     public function create()
     {
 
-      $books = Book::from('books')->whereRaw('books.existence > books.loaned')->get();
-      //dd($books[0]->BookInfo());
-      //dd($books);
-
-      return view('loans.create')
-      ->with([
-        'books'=>$books,
-      ]);
-        //
     }
 
     /**
@@ -64,21 +54,7 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        $loans = new Loans($input);
-        $loans['user_id']=Auth::id();
-        $loans['retrieval_date']= Carbon::now();
-        $loans->save();
 
-        $books = Book::findOrFail($input['book_id']);
-        $books['loaned'] = $books['loaned']+1;
-        $books->save();
-
-        return redirect('/loans')
-        ->with([
-          'status'=>'success',
-          'msj'=>'¡Rentaste un libro!',
-        ]);
     }
 
     /**
@@ -100,7 +76,20 @@ class LoanController extends Controller
      */
     public function edit($id)
     {
-        //
+      $loans = Loans::findOrFail($id);
+
+      $loans['real_return_date'] = Carbon::now();
+      $loans->save();
+
+      $book = Book::findOrFail($loans['user_id']);
+      $book['loaned'] = $book['loaned']-1;
+      $book->save();
+
+      return redirect('/return')
+      ->with([
+        'status'=>'success',
+        'msj'=>'¡Rentaste un libro!',
+      ]);
     }
 
     /**

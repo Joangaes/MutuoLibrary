@@ -26,3 +26,5 @@ Route::resource('library','LibraryController');
 Route::resource('author','AuthorController');
 
 Route::resource('loans','LoanController');
+
+Route::resource('return','ReturnController');

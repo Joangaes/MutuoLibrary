@@ -5,13 +5,9 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <a href="/loans/create">Nuevo Prestamo</a>
-      <h1>Lista de Prestamos de {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h1>
+      <h1>Prestamos Activos de {{$first_name}} {{$last_name}}</h1>
       <table class="table table-striped">
         <tr>
-          <th>
-            Nombre del rentador
-          </th>
           <th>
             Titulo del libro
           </th>
@@ -22,14 +18,11 @@
             Fecha esperada de regreso del prestamo
           </th>
           <th>
-            Fecha Regresado
+            Regresar libro
           </th>
         </tr>
         @foreach ($loans as $loan)
         <tr>
-            <td>
-              {{$loan->User->first_name}} {{$loan->User->last_name}}
-            </td>
             <td>
               {{$loan->Book->BookInfo->title}}
             </td>
@@ -40,7 +33,7 @@
               {{$loan->return_date}}
             </td>
             <td>
-              {{$loan->real_return_date}}
+              <a href="return/{{$loan->loan_id}}/edit">Regresar</a>
             </td>
         </tr>
         @endforeach

@@ -28,7 +28,14 @@
         @endforeach
       </table>
     </div>
+
   </div>
+  <center>
+  {{ $authors->links() }}
+  <center>
 </div>
+
+
+
 
 @stop

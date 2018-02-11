@@ -23,7 +23,7 @@ class BookController extends Controller
      */
     public function index()
     {
-      $books= DB::table('book_infos')->get();
+        $books= BookInfo::paginate(15);
       //dd($books);
         return view('book.index')
         ->with([

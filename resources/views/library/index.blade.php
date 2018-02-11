@@ -29,6 +29,9 @@
       </table>
     </div>
   </div>
+  <center>
+  {{ $libraries->links() }}
+  <center>
 </div>
 
 

@@ -19,7 +19,7 @@ class LibraryController extends Controller
      */
     public function index()
     {
-      $libraries = DB::table('libraries')->get();
+      $libraries = DB::table('libraries')->paginate(15);
         return view('library.index')
         ->with([
           'libraries'=>$libraries,

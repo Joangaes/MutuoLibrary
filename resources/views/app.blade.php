@@ -38,7 +38,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" href="/loans">
                     <img src="/mutuo.png" alt="Mutuo" height="35" width="35">
                 </a>
             </div>
@@ -50,13 +50,14 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     @if (Auth::guest())
-                      <li><a href="{{ url('/') }}">Inicio</a></li>
+                      <li><a href="{{ url('/loan') }}">Inicio</a></li>
                     @else
                         <li>
                         <li><a href="{{ url('/loans') }}">Prestamos</a></li>
                         <li><a href="{{ url('/books') }}">Libros</a></li>
                         <li><a href="{{ url('/author') }}">Autores</a></li>
                         <li><a href="{{ url('/library') }}">Biblioteca</a></li>
+                        <li><a href="{{ url('/return') }}">Regresar libro</a></li>
                         <li><a href="{{ url('/auth/logout') }}">Salir</a></li>
                     @endif
                 </ul>
