@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Book;
 use App\BookInfo;
+use App\Author;
+use App\User;
+use App\Library;
+use DB;
 
 class BookController extends Controller
 {
@@ -29,7 +33,16 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $authors = DB::table('authors')->get();
+        $users = DB::table('users')->get();
+        $libraries = DB::table('libraries')->get();
+        //dd($libraries);
+        return view('book.create')
+        ->with([
+          'authors'=>$authors,
+          'users'=>$users,
+          'libraries' =>$libraries,
+        ]);
     }
 
     /**
