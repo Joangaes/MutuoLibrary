@@ -23,7 +23,12 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('book.index');
+      $books= DB::table('book_infos')->get();
+      //dd($books);
+        return view('book.index')
+        ->with([
+        'books'=>$books,
+        ]);
     }
 
     /**
@@ -53,7 +58,30 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd('1');
+        $input = $request->all();
+        $Book = new Book();
+        $BookInfo = new BookInfo();
+        $BookInfo['title'] = $input['title'];
+        $BookInfo['date_published'] = $input['date_published'];
+        $BookInfo['pages'] = $input['pages'];
+        $BookInfo['isbn'] = $input['isbn'];
+        $BookInfo['genre'] = $input['genre'];
+        $BookInfo['editorial'] = $input['editorial'];
+        $BookInfo['owner'] = $input['owner'];
+        $BookInfo['library_id'] = $input['library_id'];
+        $BookInfo->save();
+        $Book['author_id'] = $input['author_id'];
+        $Book['book_info_id'] = $BookInfo['book_info_id'];
+        $Book['existence'] = 1;
+        $Book['loaned']=0;
+        $Book->save();
+        return redirect('/books')
+        ->with([
+          'status'=>'success',
+          'msj'=>'¡Guardaste un nuevo libro!',
+        ]);
+
     }
 
     /**

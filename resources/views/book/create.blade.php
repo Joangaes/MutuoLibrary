@@ -2,12 +2,12 @@
 
 @section('content')
 
-<form class="form-horizontal" method="post" action="book/create ">
+<form class="form-horizontal" method="post" action="/books ">
   <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <fieldset>
 
 <!-- Form Name -->
-<legend>Agregar Libro</legend>
+<legend>Nuevo Libro</legend>
 
 <!-- Text input-->
 <div class="form-group">
@@ -15,6 +15,20 @@
   <div class="col-md-4">
   <input id="title" name="title" placeholder="El señor de los anillos" class="form-control input-md" required="" type="text">
 
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="author_id">Author</label>
+  <div class="col-md-4">
+    <select id="author_id" name="author_id" class="form-control">
+      @foreach($authors as $author)
+
+        <option value="{{$author->author_id}}">{{$author->first_name}} {{$author->last_name}}</option>
+
+      @endforeach
+    </select>
   </div>
 </div>
 
@@ -101,6 +115,15 @@
   <label class="col-md-4 control-label" for="editorial">Editorial</label>
   <div class="col-md-4">
   <input id="editorial" name="editorial" placeholder="Pascal" class="form-control input-md" required="" type="text">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="pages">Paginas</label>
+  <div class="col-md-4">
+  <input id="pages" name="pages" placeholder="200" class="form-control input-md" required="" type="text">
 
   </div>
 </div>

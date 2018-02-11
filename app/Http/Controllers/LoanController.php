@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Author;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use App\Loans;
+use App\User;
+use App\Book;
 use DB;
-use App\Http\Controllers\Controller;
-use Session;
+use Carbon\Carbon;
 
-class AuthorController extends Controller
+class LoanController extends Controller
 {
-  public function __construct()
-  {
-    $this->middleware('auth');
-  }
     /**
      * Display a listing of the resource.
      *
@@ -22,10 +19,16 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::all();
-        return view('author.index')
+      $loans = Loans::all();
+      //dd($loans[0]->Book->BookInfo->title);
+      /*$number_of_loans=count($loans);
+      for($x=0;$x<$number_of_loans;$x++)
+      {
+        dd($loans[$x]['user_id']);
+      }*/
+        return view('loans.index')
         ->with([
-          'authors'=>$authors,
+          'loans'=>$loans,
         ]);
     }
 
@@ -36,7 +39,14 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        return view('author.create');
+      $books = Book::where('existence','>','loaned');
+      //dd($books[0]->BookInfo());
+
+      return view('loans.create')
+      ->with([
+        'books'=>$books,
+      ]);
+        //
     }
 
     /**
@@ -47,15 +57,20 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $input= $request->all();
-        $model = new Author($input);
+        $input = $request->all();
+        $loans = new Loans($input);
+        $loans['user_id']=Auth::id();
+        $loans['retrieval_date']= Carbon::now();
+        $loans->save();
 
-        $model->save();
+        $books = Book::findOrFail($input['book_id']);
+        $books['loaned'] = $books['loaned']+1;
+        $books->save();
 
-        return redirect('/author')
+        return redirect('/loans')
         ->with([
           'status'=>'success',
-          'msj'=>'¡Guardaste un nuevo autor!',
+          'msj'=>'¡Rentaste un libro!',
         ]);
     }
 

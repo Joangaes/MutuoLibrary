@@ -13,10 +13,11 @@ class Book extends Model
     protected $fillable = ['book_info_id','author_id','existence','loaned'];
 
     public function BookInfo(){
-      return $this->belongsTo('App\BookInfo','book_info_id','book_info_id');
+      return $this->hasOne('App\BookInfo','book_info_id','book_info_id');
     }
+
     public function Author(){
-      return $this->belongsTo('App\Author','author_id','author_id');
+      return $this->hasOne('App\Author','author_id','author_id');
     }
 
 }

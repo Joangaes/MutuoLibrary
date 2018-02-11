@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Library;
+use DB;
 
 class LibraryController extends Controller
 {
@@ -17,7 +19,11 @@ class LibraryController extends Controller
      */
     public function index()
     {
-        return view('library.index');
+      $libraries = DB::table('libraries')->get();
+        return view('library.index')
+        ->with([
+          'libraries'=>$libraries,
+        ]);
     }
 
     /**
@@ -38,6 +44,14 @@ class LibraryController extends Controller
      */
     public function store(Request $request)
     {
+      $input = $request->all();
+      $library = new Library($input);
+      $library->save();
+      return redirect('/library')
+      ->with([
+        'status'=>'success',
+        'msj'=>'¡Guardaste una nueva biblioteca!',
+      ]);
         //
     }
 

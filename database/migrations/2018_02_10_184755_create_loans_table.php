@@ -20,7 +20,7 @@ class CreateLoansTable extends Migration
             $table->integer('book_id')->unsigned();
             $table->date('retrieval_date');
             $table->date('return_date');
-            $table->date('real_return_date');
+            $table->date('real_return_date')->nullable();
 
             $table->foreign('user_id')
             ->references('id')

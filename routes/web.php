@@ -24,3 +24,5 @@ Route::resource('books','BookController');
 Route::resource('library','LibraryController');
 
 Route::resource('author','AuthorController');
+
+Route::resource('loans','LoanController');

@@ -6,7 +6,7 @@
 <fieldset>
 
 <!-- Form Name -->
-<legend>Autores</legend>
+<legend>Nuevo Autor</legend>
 
 <!-- Text input-->
 <div class="form-group" >
