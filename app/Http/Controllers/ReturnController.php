@@ -81,7 +81,7 @@ class ReturnController extends Controller
       $loans['real_return_date'] = Carbon::now();
       $loans->save();
 
-      $book = Book::findOrFail($loans['user_id']);
+      $book = Book::findOrFail($loans['book_id']);
       $book['loaned'] = $book['loaned']-1;
       $book->save();
 

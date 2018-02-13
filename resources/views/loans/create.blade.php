@@ -11,7 +11,7 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="book_id">Libros Disponibles</label>
   <div class="col-md-4">
-    <select id="book_id" name="book_id" class="form-control">
+    <select id="book_id" name="book_id" class="form-control" data-live-search="true">
       @foreach($books as $book)
 
         <option value="{{$book->book_id}}">{{$book->BookInfo->title}}</option>
